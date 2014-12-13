@@ -53,23 +53,30 @@ activity$date <- as.Date(activity$date)
 1. Make a histogram of the total number of steps taken each day
 
 ```{r HistSumPerDay}
-sumperday <- aggregate(activity$steps, by = list(activity$date), sum)
+sumperday <- aggregate(activity$steps, by = list(activity$date), sum, na.rm = TRUE)
 colnames(sumperday) <- c("Date", "Steps")
 plot(sumperday, type = "h", main = "Total Steps per Day")
 ```
+  
+*Note: steps per day are summed with na.rm = TRUE*
+
 
 2. Calculate and report the mean and median total number of steps taken per day
 
-```{r HistMeanPerDay}
-meanperday <- aggregate(activity$steps, by = list(activity$date), mean)
-colnames(meanperday) <- c("Date", "Steps")
-plot(meanperday, type = "h", main = "Average Number of Steps per Day")
-
-medianperday <- aggregate(activity$steps, by = list(activity$date), median)
-medianperday
+```{r MeanSumPerDay}
+mean(sumperday$Steps, na.rm = TRUE)
 ```
 
+*The mean total number of steps per day is*  **9,354.23**
+
+```{r MedianSumPerDay}
+median(sumperday$Steps, na.rm = TRUE)
+```
+
+*The median total number of steps per day is*  **10,395**
+
 ### What is the average daily activity pattern?
+
 
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
@@ -85,7 +92,7 @@ plot(meanperint, type = "l", main = "Average Number of Steps per Interval")
 maxsteps <- max(meanperint$Steps)
 meanperint[meanperint$Steps == maxsteps, ]
 ```
-*The 5-minute interval that contains the most number of steps is Interval#* **835**
+*The 5-minute interval that contains the most number of steps is Interval#*  **835**
 
 ### Imputing missing values
 
@@ -115,29 +122,32 @@ for (i in 1:nrow(actfill))
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. 
 
 ```{r HistSumPerDayImputed}
-sumperday2 <- aggregate(actfill$steps, by = list(actfill$date), sum)
+sumperday2 <- aggregate(actfill$steps, by = list(actfill$date), sum, na.rm = TRUE)
 colnames(sumperday2) <- c("Date", "Steps")
 plot(sumperday2, type = "h", main = "Total Steps per Day (Imputed)")
 ```
 
-```{r HistMeanPerDayImputed}
-meanperday2 <- aggregate(actfill$steps, by = list(actfill$date), mean)
-colnames(meanperday2) <- c("Date", "Steps")
-plot(meanperday2, type = "h", main = "Average Number of Steps per Day (Imputed)")
+```{r MeanPerDayImputed}
+mean(sumperday2$Steps, na.rm = TRUE)
 ```
+
+*The mean total number of steps (imputed NAs) per day is*  **10,749.77** 
+
 
 ```{r MedianPerDayImputed}
-medianperday2 <- aggregate(actfill$steps, by = list(actfill$date), median)
-colnames(medianperday2) <- c("Date", "Steps")
-# plot(medianperday2, type = "h", main = "Median Number of Steps per Day (Imputed)")
-medianperday2
+median(sumperday2$Steps, na.rm = TRUE)
 ```
 
-Do these values differ from the estimates from the first part of the assignment?  
-*Yes.*
+*The median total number of steps (imputed NAs) per day is*  **10,641** 
+
+
+Do these values differ from the estimates from the first part of the assignment? 
+*Yes!*
 
 What is the impact of imputing missing data on the estimates of the total daily number of steps?  
-*The plots are smoother due to the imputed NA values.*
+*Due to the imputed NA values, the computed mean and median are higher and the plots are smoother.*
+
+
 
 ### Are there differences in activity patterns between weekdays and weekends?
 
@@ -176,4 +186,4 @@ plot(weekdaymean, type = "l", main = "Average Number of Steps per Interval - Wee
 plot(weekendmean, type = "l", main = "Average Number of Steps per Interval - Weekends")
 ```
 
-*Yes, there are differences in activity patterns between weekdays and weekends.*
+*Yes, clearly there are differences in activity patterns between weekdays and weekends.*

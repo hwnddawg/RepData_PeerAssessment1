@@ -57,95 +57,42 @@ activity$date <- as.Date(activity$date)
 
 
 ```r
-sumperday <- aggregate(activity$steps, by = list(activity$date), sum)
+sumperday <- aggregate(activity$steps, by = list(activity$date), sum, na.rm = TRUE)
 colnames(sumperday) <- c("Date", "Steps")
 plot(sumperday, type = "h", main = "Total Steps per Day")
 ```
 
 ![plot of chunk HistSumPerDay](figure/HistSumPerDay-1.png) 
+  
+*Note: steps per day are summed with na.rm = TRUE*
+
 
 2. Calculate and report the mean and median total number of steps taken per day
 
 
 ```r
-meanperday <- aggregate(activity$steps, by = list(activity$date), mean)
-colnames(meanperday) <- c("Date", "Steps")
-plot(meanperday, type = "h", main = "Average Number of Steps per Day")
+mean(sumperday$Steps, na.rm = TRUE)
 ```
 
-![plot of chunk HistMeanPerDay](figure/HistMeanPerDay-1.png) 
+```
+## [1] 9354.23
+```
+
+*The mean total number of steps per day is*  **9,354.23**
+
 
 ```r
-medianperday <- aggregate(activity$steps, by = list(activity$date), median)
-medianperday
+median(sumperday$Steps, na.rm = TRUE)
 ```
 
 ```
-##       Group.1  x
-## 1  2012-10-01 NA
-## 2  2012-10-02  0
-## 3  2012-10-03  0
-## 4  2012-10-04  0
-## 5  2012-10-05  0
-## 6  2012-10-06  0
-## 7  2012-10-07  0
-## 8  2012-10-08 NA
-## 9  2012-10-09  0
-## 10 2012-10-10  0
-## 11 2012-10-11  0
-## 12 2012-10-12  0
-## 13 2012-10-13  0
-## 14 2012-10-14  0
-## 15 2012-10-15  0
-## 16 2012-10-16  0
-## 17 2012-10-17  0
-## 18 2012-10-18  0
-## 19 2012-10-19  0
-## 20 2012-10-20  0
-## 21 2012-10-21  0
-## 22 2012-10-22  0
-## 23 2012-10-23  0
-## 24 2012-10-24  0
-## 25 2012-10-25  0
-## 26 2012-10-26  0
-## 27 2012-10-27  0
-## 28 2012-10-28  0
-## 29 2012-10-29  0
-## 30 2012-10-30  0
-## 31 2012-10-31  0
-## 32 2012-11-01 NA
-## 33 2012-11-02  0
-## 34 2012-11-03  0
-## 35 2012-11-04 NA
-## 36 2012-11-05  0
-## 37 2012-11-06  0
-## 38 2012-11-07  0
-## 39 2012-11-08  0
-## 40 2012-11-09 NA
-## 41 2012-11-10 NA
-## 42 2012-11-11  0
-## 43 2012-11-12  0
-## 44 2012-11-13  0
-## 45 2012-11-14 NA
-## 46 2012-11-15  0
-## 47 2012-11-16  0
-## 48 2012-11-17  0
-## 49 2012-11-18  0
-## 50 2012-11-19  0
-## 51 2012-11-20  0
-## 52 2012-11-21  0
-## 53 2012-11-22  0
-## 54 2012-11-23  0
-## 55 2012-11-24  0
-## 56 2012-11-25  0
-## 57 2012-11-26  0
-## 58 2012-11-27  0
-## 59 2012-11-28  0
-## 60 2012-11-29  0
-## 61 2012-11-30 NA
+## [1] 10395
 ```
+
+*The median total number of steps per day is*  **10,395**
 
 ### What is the average daily activity pattern?
+
 
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
@@ -171,7 +118,7 @@ meanperint[meanperint$Steps == maxsteps, ]
 ##     Interval    Steps
 ## 104      835 206.1698
 ```
-*The 5-minute interval that contains the most number of steps is Interval#* **835**
+*The 5-minute interval that contains the most number of steps is Interval#*  **835**
 
 ### Imputing missing values
 
@@ -208,7 +155,7 @@ for (i in 1:nrow(actfill)) {
 
 
 ```r
-sumperday2 <- aggregate(actfill$steps, by = list(actfill$date), sum)
+sumperday2 <- aggregate(actfill$steps, by = list(actfill$date), sum, na.rm = TRUE)
 colnames(sumperday2) <- c("Date", "Steps")
 plot(sumperday2, type = "h", main = "Total Steps per Day (Imputed)")
 ```
@@ -217,92 +164,35 @@ plot(sumperday2, type = "h", main = "Total Steps per Day (Imputed)")
 
 
 ```r
-meanperday2 <- aggregate(actfill$steps, by = list(actfill$date), mean)
-colnames(meanperday2) <- c("Date", "Steps")
-plot(meanperday2, type = "h", main = "Average Number of Steps per Day (Imputed)")
+mean(sumperday2$Steps, na.rm = TRUE)
 ```
 
-![plot of chunk HistMeanPerDayImputed](figure/HistMeanPerDayImputed-1.png) 
+```
+## [1] 10749.77
+```
+
+*The mean total number of steps (imputed NAs) per day is*  **10,749.77** 
+
 
 
 ```r
-medianperday2 <- aggregate(actfill$steps, by = list(actfill$date), median)
-colnames(medianperday2) <- c("Date", "Steps")
-# plot(medianperday2, type = 'h', main = 'Median Number of Steps per Day
-# (Imputed)')
-medianperday2
+median(sumperday2$Steps, na.rm = TRUE)
 ```
 
 ```
-##          Date Steps
-## 1  2012-10-01  33.5
-## 2  2012-10-02   0.0
-## 3  2012-10-03   0.0
-## 4  2012-10-04   0.0
-## 5  2012-10-05   0.0
-## 6  2012-10-06   0.0
-## 7  2012-10-07   0.0
-## 8  2012-10-08  33.5
-## 9  2012-10-09   0.0
-## 10 2012-10-10   0.0
-## 11 2012-10-11   0.0
-## 12 2012-10-12   0.0
-## 13 2012-10-13   0.0
-## 14 2012-10-14   0.0
-## 15 2012-10-15   0.0
-## 16 2012-10-16   0.0
-## 17 2012-10-17   0.0
-## 18 2012-10-18   0.0
-## 19 2012-10-19   0.0
-## 20 2012-10-20   0.0
-## 21 2012-10-21   0.0
-## 22 2012-10-22   0.0
-## 23 2012-10-23   0.0
-## 24 2012-10-24   0.0
-## 25 2012-10-25   0.0
-## 26 2012-10-26   0.0
-## 27 2012-10-27   0.0
-## 28 2012-10-28   0.0
-## 29 2012-10-29   0.0
-## 30 2012-10-30   0.0
-## 31 2012-10-31   0.0
-## 32 2012-11-01  33.5
-## 33 2012-11-02   0.0
-## 34 2012-11-03   0.0
-## 35 2012-11-04  33.5
-## 36 2012-11-05   0.0
-## 37 2012-11-06   0.0
-## 38 2012-11-07   0.0
-## 39 2012-11-08   0.0
-## 40 2012-11-09  33.5
-## 41 2012-11-10  33.5
-## 42 2012-11-11   0.0
-## 43 2012-11-12   0.0
-## 44 2012-11-13   0.0
-## 45 2012-11-14  33.5
-## 46 2012-11-15   0.0
-## 47 2012-11-16   0.0
-## 48 2012-11-17   0.0
-## 49 2012-11-18   0.0
-## 50 2012-11-19   0.0
-## 51 2012-11-20   0.0
-## 52 2012-11-21   0.0
-## 53 2012-11-22   0.0
-## 54 2012-11-23   0.0
-## 55 2012-11-24   0.0
-## 56 2012-11-25   0.0
-## 57 2012-11-26   0.0
-## 58 2012-11-27   0.0
-## 59 2012-11-28   0.0
-## 60 2012-11-29   0.0
-## 61 2012-11-30  33.5
+## [1] 10641
 ```
 
-Do these values differ from the estimates from the first part of the assignment?  
-*Yes.*
+*The median total number of steps (imputed NAs) per day is*  **10,641** 
+
+
+Do these values differ from the estimates from the first part of the assignment? 
+*Yes!*
 
 What is the impact of imputing missing data on the estimates of the total daily number of steps?  
-*The plots are smoother due to the imputed NA values.*
+*Due to the imputed NA values, the computed mean and median are higher and the plots are smoother.*
+
+
 
 ### Are there differences in activity patterns between weekdays and weekends?
 
@@ -347,4 +237,4 @@ plot(weekendmean, type = "l", main = "Average Number of Steps per Interval - Wee
 
 ![plot of chunk PanelPlotWeekdaysvsWeekends](figure/PanelPlotWeekdaysvsWeekends-1.png) 
 
-*Yes, there are differences in activity patterns between weekdays and weekends.*
+*Yes, clearly there are differences in activity patterns between weekdays and weekends.*

@@ -1,3 +1,14 @@
+## Important Note: 
+
+*This is the README file.*  
+
+Kindly click on the [PA1_template.md file](https://github.com/hwnddawg/RepData_PeerAssessment1/blob/master/PA1_template.md) to view the assignment.  
+
+**Thank you!**
+
+
+
+
 ## Introduction
 
 It is now possible to collect a large amount of data about personal
